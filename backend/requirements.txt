@@ -1,0 +1,9 @@
+# Versions below are the ones tested together (Python 3.12). On Render, torch is installed first from the
+# CPU-only index (see render.yaml buildCommand), so this pin is already satisfied there.
+fastapi==0.142.1
+uvicorn==0.54.0
+python-multipart==0.0.32
+python-dotenv==1.2.3
+pillow==12.3.0
+torch==2.14.0
+transformers==5.17.0

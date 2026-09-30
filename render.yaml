@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: tomatoguard-ai
+    runtime: python
+    plan: 1c-2g            # 2 GB RAM; the ViT + PyTorch need more than the 512 MB plans
+    region: singapore      # closest Render region to India
+    buildCommand: pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu && pip install -r backend/requirements.txt && cd backend && python download_model.py
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: MODEL_ID
+        value: wellCh4n/tomato-leaf-disease-classification-vit

@@ -1,0 +1,18 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+*.log
+.DS_Store
+.idea/
+.vscode/
+# model weights are downloaded from Hugging Face at build time, never committed
+backend/models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+tmp/
+*.tmp

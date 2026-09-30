@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TomatoGuard AI: Intelligent tomato crop health detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#home"><svg width="26" height="26" viewBox="0 0 32 32"><circle cx="16" cy="18" r="11" fill="#D7392B"/><path d="M16 8c-2-3-6-3-8-1 3 0 5 1 6 2-2 0-4 1-5 2 3-1 5 0 7 1 2-1 4-2 7-1-1-1-3-2-5-2 1-1 3-2 6-2-2-2-6-2-8 1z" fill="#3F6B45"/></svg>TomatoGuard AI</a>
+  <nav id="menu">
+    <a href="#home">Home</a><a href="#detect">Detect</a><a href="#history">History</a><a href="#how">How it works</a><a href="#about">About</a>
+  </nav>
+</header>
+
+<main>
+<section class="view" id="home">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="tag">Intelligent tomato crop health detection</p>
+      <h1>Detect Tomato Leaf Diseases with AI</h1>
+      <p class="lead">Upload a tomato leaf image and let our Vision Transformer analyze its condition in seconds.</p>
+      <div class="cta"><a class="btn primary" href="#detect">Analyze a Leaf</a><a class="btn ghost" href="#how">Explore How It Works</a></div>
+      <ul class="facts"><li>AI-powered detection</li><li>Fast analysis</li><li>10 diseases, 3 clear categories</li><li>Action-oriented results</li></ul>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 400"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FA36F"/><stop offset="1" stop-color="#27502F"/></linearGradient></defs>
+        <path class="leaf" d="M200 40C310 80 350 190 290 290 250 350 200 370 200 370 200 370 150 350 110 290 50 190 90 80 200 40Z" fill="url(#lg)"/>
+        <path d="M200 60V365M200 150l-60 50M200 150l60 50M200 230l-50 40M200 230l50 40" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none"/>
+        <g class="scan"><rect x="60" y="0" width="280" height="3" fill="#D7392B"/></g>
+        <circle cx="255" cy="215" r="9" fill="#7A3B1E" opacity=".75"/><circle cx="150" cy="260" r="6" fill="#7A3B1E" opacity=".75"/>
+        <rect x="268" y="120" width="92" height="30" rx="8" fill="#fff"/><text x="314" y="140" text-anchor="middle" font-size="13" font-weight="600" fill="#14201B">FUNGAL 94%</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="detect">
+  <h2>Analyze a leaf</h2>
+  <div class="panel">
+    <div id="dropzone" class="drop" tabindex="0" role="button" aria-label="Choose a tomato leaf image">
+      <div id="dropEmpty">
+        <h3>Drop your tomato leaf image here</h3>
+        <p>JPG, PNG or WebP, up to 8 MB. One leaf, good light, leaf filling most of the frame.</p>
+        <div class="cta"><button class="btn primary" id="btnChoose" type="button">Choose Image</button><button class="btn ghost" id="btnCamera" type="button">Use Camera</button></div>
+      </div>
+      <div id="previewBox" hidden>
+        <img id="previewImg" alt="Selected leaf preview">
+        <div class="meta"><strong id="fileName"></strong><span id="fileDims"></span>
+          <div class="cta"><button class="btn primary" id="btnAnalyze" type="button">Analyze Leaf</button><button class="btn ghost" id="btnRemove" type="button">Change image</button></div>
+        </div>
+      </div>
+    </div>
+    <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+    <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+    <p id="errorBox" class="error" role="alert" hidden></p>
+  </div>
+
+  <div id="loading" class="panel loading" hidden aria-live="polite">
+    <div class="spinner"></div><h3>Analyzing your leaf...</h3>
+    <ol id="stages"><li>Preparing image</li><li>Running AI analysis</li><li>Identifying condition</li><li>Preparing recommendations</li></ol>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div id="result" hidden>
+    <div id="statusCard" class="status">
+      <p class="small">Plant status</p><h3 id="rCategory"></h3><p id="rHeadline" class="big"></p>
+      <p id="rDisease"></p>
+      <div class="conf"><span id="rConf"></span><small>Model confidence</small></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h3>Model output</h3>
+        <dl><dt>Original model prediction</dt><dd id="rOrig"></dd><dt>Operational category</dt><dd id="rCat2"></dd><dt>Confidence</dt><dd id="rConf2"></dd></dl>
+      </div>
+      <details class="panel" open><summary>AI analysis</summary><div id="topBars"></div>
+        <details class="inner"><summary>View full model output</summary><div id="allBars"></div></details>
+      </details>
+    </div>
+    <div class="panel"><h3>Recommended next steps</h3><ul id="steps"></ul>
+      <p class="note">General informational guidance only, not a treatment plan. Confidence is the model's prediction score, not certainty. Confirm with local agricultural guidance.</p></div>
+  </div>
+</section>
+
+<section class="view" id="history">
+  <div class="row"><h2>Recent analyses</h2><button class="btn ghost" id="btnClear" type="button">Clear history</button></div>
+  <div id="historyList"></div>
+</section>
+
+<section class="view" id="how">
+  <h2>How it works</h2>
+  <ol class="flow">
+    <li><b>Capture or upload</b><span>Take a photo or choose an image of a single tomato leaf.</span></li>
+    <li><b>AI analyzes the image</b><span>The image is sent to our server and prepared for the model.</span></li>
+    <li><b>ViT picks the likeliest disease</b><span>A Vision Transformer scores 10 possible conditions.</span></li>
+    <li><b>The disease is grouped</b><span><em class="chip healthy">HEALTHY</em><em class="chip fungal">FUNGAL</em><em class="chip other">OTHER_DISEASE</em></span></li>
+    <li><b>You get next steps</b><span>Clear, general guidance based on the result.</span></li>
+  </ol>
+</section>
+
+<section class="view" id="about">
+  <h2>About the AI</h2>
+  <div class="grid3">
+    <div class="panel"><small>Model</small><h3>Vision Transformer</h3></div>
+    <div class="panel"><small>Disease classes</small><h3>10 original classes</h3></div>
+    <div class="panel"><small>Operational categories</small><h3>3</h3></div>
+    <div class="panel"><small>Inference</small><h3>Server-side API</h3></div>
+  </div>
+  <p class="lead narrow">TomatoGuard AI uses a pretrained Vision Transformer for tomato leaves. The model is not perfect. Confidence is the model's prediction score, not certainty, and results can be wrong for unusual photos, other plants, or several problems at once. Treat results as a first look.</p>
+</section>
+</main>
+<footer>TomatoGuard AI. Informational tool, not a substitute for expert diagnosis.</footer>
+<script src="app.js"></script>
+</body>
+</html>
